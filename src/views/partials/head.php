@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php
-    switch ($request_uri) {
+    switch ($request_uri['path']) {
+        case '/':
+            echo "Welcome to Avwave Blog | HOME";
+            break;
         case '/about':
             echo "About us";
             break;
@@ -12,7 +15,7 @@
             echo "Contact us";
             break;
         default:
-            echo "Welcome to Avwave Blog | HOME";
+            echo "404 Not Found!";
     }
     ?></title>
      <script src="https://cdn.tailwindcss.com"></script>
