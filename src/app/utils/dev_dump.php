@@ -18,3 +18,10 @@ function dumpnkill($arg):void
 
     die();
 }
+
+function dumpOnly($arg): void
+{
+    echo "<pre>";
+    var_dump($arg);
+    echo "</pre>";
+}
