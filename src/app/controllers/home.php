@@ -10,6 +10,10 @@ if (isset($_GET['sort'])) {
     dumpnkill($sort);
 }
 
+$posts = $db->query("select p.title, p.slug,p.content,  p.created_at,u.username from posts p join users u on p.author_id = u.id", PDO::FETCH_ASSOC);
+
+
+
 
 
 

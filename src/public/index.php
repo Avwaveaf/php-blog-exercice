@@ -29,9 +29,7 @@ $config = require APP_PATH . "config.php";
 $db = new Database($config['database'], $_ENV['user'], $_ENV['password']);
 
 
-$posts = $db->query("select * from posts");
 
-$post = $db->execute("delete from posts where id=6");
 
 
 
@@ -47,7 +45,6 @@ $post = $db->execute("delete from posts where id=6");
 //     echo "successfuully deleted";
 // }
 
-dumpnkill($posts);
 
 //require the router 
 require_once ROUTES_PATH . 'router.php';
