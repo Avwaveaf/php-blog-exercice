@@ -13,19 +13,28 @@ class Database
      * and assigning PDO
      * @throws \PDOException
      */
-    public function __construct()
+    public function __construct(array $config, string $user, string $password)
     {
-        // DB Conneciton string and configuration
-        $dsn = "{$_ENV['driver']}:host={$_ENV['host']};dbname={$_ENV['dbname']};charset=utf8mb4";
+        
+        
+        // build dsn uri
+        $dsn = $_ENV['driver'] . ":" . http_build_query($config, '', ';' );
+        
+        // fetch configureation and other DTO configuration
         $connectionConfig = [
             \PDO::ATTR_DEFAULT_FETCH_MODE =>\PDO::FETCH_OBJ,
         ];
+
+
         try {
-             // make connection to db
-            static::$db = new \PDO($dsn, $_ENV['user'],$_ENV['password'], $connectionConfig);
+             // Connection PDO instance
+            static::$db = new \PDO($dsn, $user,$password, $connectionConfig);
+
         } catch (\Exception $e) {
+
             // Handle exceptions (connection errors)
             throw new \PDOException($e->getMessage(), $e->getCode());
+
         }
     }
 
