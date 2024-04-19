@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php
-    switch ($request_uri['path']) {
+   
+    switch (parse_url($_SERVER["REQUEST_URI"])['path']) {
         case '/':
             echo "Welcome to Avwave Blog | HOME";
             break;
