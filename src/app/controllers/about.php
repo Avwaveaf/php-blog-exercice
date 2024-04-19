@@ -1,5 +1,13 @@
 <?php
+declare(strict_types=1);
 
-$header = "About us page";
+namespace App\Controllers;
 
-require VIEWS_PATH . 'about.php';
+class About
+{
+
+    public function index():string
+    {
+        return 'About Page';
+    }
+}

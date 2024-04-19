@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Controllers\About;
+use App\Controllers\Home;
 use App\Database;
+use App\Router;
 use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -28,23 +31,12 @@ $config = require APP_PATH . "config.php";
 
 $db = new Database($config['database'], $_ENV['user'], $_ENV['password']);
 
+$router = new Router();
+
+$router
+    ->get('/', [Home::class, 'index'])
+    ->get('/about', [About::class, 'index']);
 
 
 
-
-
-// $res = $db->execute("insert into posts (title, slug, content) values ('new post', 'new-post', 'this is just basic new post')");
-// if ($res) {
-//     echo "data successfuully added!";
-// }else{
-//     echo "data failure to insert";
-// }
-
-// $res = $db->execute("delete from posts where id in (4,5)");
-// if ($res) {
-//     echo "successfuully deleted";
-// }
-
-
-//require the router 
-require_once ROUTES_PATH . 'router.php';
+echo $router->resolve($_SERVER['REQUEST_URI'], strtolower($_SERVER['REQUEST_METHOD']));
