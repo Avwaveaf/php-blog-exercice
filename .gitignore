@@ -28,3 +28,5 @@ Thumbs.db
 # Ignore any other sensitive or generated files
 *.log
 *.sql
+
+.phpunit.result.cache

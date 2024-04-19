@@ -12,7 +12,7 @@ class Home
     {
         $db = App::getDbInstace();
 
-
+      
         // Begin transaction
         $db->getDb()->beginTransaction();
 
@@ -20,7 +20,7 @@ class Home
             // Perform database operations
             $posts = $db->query("SELECT p.title, p.slug, p.content, p.created_at, u.username 
                 FROM posts p 
-                JOIN users u ON p.author_id = u.id",
+                JOIN users u ON p.author_id = u.id",[],
                 \PDO::FETCH_ASSOC);
 
             // Commit transaction if all operations succeed
