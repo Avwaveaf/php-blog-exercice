@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Controllers\About;
 use App\Controllers\Home;
+use App\Controllers\Posts;
 use App\Router;
 use Dotenv\Dotenv;
 
@@ -31,7 +32,9 @@ $router = new Router();
 
 $router
     ->get('/', [Home::class, 'index'])
-    ->get('/about', [About::class, 'index']);
+    ->get('/about', [About::class, 'index'])
+    ->get('/posts/{slug}', [Posts::class, 'post'])
+    ;
 
 
 (new App\App($router, [

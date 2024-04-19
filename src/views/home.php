@@ -16,7 +16,7 @@ use Carbon\Carbon;
       <?php foreach($posts as $post) : ?>
         <div class="max-w-sm rounded overflow-hidden shadow-lg">
   <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2"><?=$post['title'] ?></div>
+    <div class="font-bold text-xl mb-2"><a href="/posts/<?= $post['slug'] ?>"><?=$post['title'] ?></a></div>
     <p class="text-gray-700 text-base">
         <?= $post['content'] ?>
   </p>

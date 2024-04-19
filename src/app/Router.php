@@ -57,40 +57,53 @@ class Router
         return $this->routes;
     }
 
-    public function resolve(string $requestUri, string $method)
-    {
-        $route = parse_url($requestUri)['path'];
+public function resolve(string $requestUri, string $method)
+{
+    // Extract path from request URI
+    $route = parse_url($requestUri)['path'];
 
-        // finding the routes routes ['method'=>'uri'=> [qualified class , 'method']]
-        $action = $this->routes[$method][$route] ?? null;
-       
+    // Get routes for the specified HTTP method
+    $routes = $this->routes[$method] ?? [];
 
-        if (!$action) {
-            throw new RouteNotFoundException();
-        }
+    // Iterate over registered routes
+    foreach ($routes as $registeredRoute => $action) {
+        // Convert route pattern to regex
+        $pattern = str_replace('/', '\/', $registeredRoute);
+        $pattern = preg_replace('/{([^\/]+)}/', '(?P<$1>[^\/]+)', $pattern);
+        $pattern = '/^' . $pattern . '$/';
 
-        // if the method available are just callable instead of array
-        // then we just call the function
-        if (is_callable($action)) {
-            return call_user_func($action);
-        }
 
-        // if it array containing fully qualified class and method name
-        // we create an instance first
-        if (is_array($action)) {
-            [$qualifiedClass, $method] = $action;
+        // Check if request URI matches the route pattern
+        if (preg_match($pattern, $route, $matches)) {
+            // Extract route parameters
+            $params = [];
+            foreach ($matches as $key => $value) {
+                if (!is_numeric($key)) {
+                    $params[$key] = $value;
+                }
+            }
 
-            if (class_exists($qualifiedClass)) {
-                // create a new instance
-                $class = new $qualifiedClass();
+            // If action is callable, execute it
+            if (is_callable($action)) {
+                return call_user_func_array($action, $params);
+            }
 
-                // check the method exists within the class
-                if (method_exists($class, $method)) {
-                    return call_user_func_array([$class, $method], []);
+            // If action is an array, create instance and call method
+            if (is_array($action)) {
+                [$qualifiedClass, $method] = $action;
+
+                if (class_exists($qualifiedClass)) {
+                    $class = new $qualifiedClass();
+                    if (method_exists($class, $method)) {
+                        return call_user_func_array([$class, $method], $params);
+                    }
                 }
             }
         }
-        //if not an array nor callable
-        throw new RouteNotFoundException();
     }
+
+    // No matching route found
+    throw new RouteNotFoundException();
+}
+
 }

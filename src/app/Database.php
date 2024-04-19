@@ -46,11 +46,11 @@ class Database
      *
      * @return array
      */
-    public function query(string $queryStatement, int $fetch_mode = \PDO::FETCH_OBJ) : array
+    public function query(string $queryStatement, array $params=[], int $fetch_mode = \PDO::FETCH_OBJ) : array
     {
         // prepare query statement 
         $stmnt = static::$db->prepare($queryStatement);  
-        $stmnt->execute();
+        $stmnt->execute($params);
         
         return $stmnt->fetchAll($fetch_mode);
     }
@@ -62,11 +62,11 @@ class Database
      * @param int $fetch_mode
      * @return mixed
      */
-    public function queryOne(string $queryStatement, int $fetch_mode = \PDO::FETCH_OBJ)
+    public function queryOne(string $queryStatement,array $params=[], int $fetch_mode = \PDO::FETCH_OBJ)
     {
            // prepare query statement 
         $stmnt = static::$db->prepare($queryStatement);  
-        $stmnt->execute();
+        $stmnt->execute($params);
         
         return $stmnt->fetch($fetch_mode);
     }
@@ -78,12 +78,12 @@ class Database
      * so user can chaining it desired fetch.
      *    
      * @param string $queryStatement
-     *
+     * @param array $params
      */
-    public function execute(string $queryStatement)
+    public function execute(string $queryStatement, array $params=[])
     {
         $stmnt = static::$db->prepare($queryStatement);
-        $stmnt->execute();
+        $stmnt->execute($params);
 
         return $stmnt;
     }
