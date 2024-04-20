@@ -22,6 +22,8 @@ define("VIEWS_PATH", $root .'../views' . DIRECTORY_SEPARATOR);
 define("CONTROLLERS_PATH", $root . '../app/controllers' . DIRECTORY_SEPARATOR);
 define("UTILS_PATH", $root . '../app/utils' . DIRECTORY_SEPARATOR);
 define("APP_PATH", $root . '../app' . DIRECTORY_SEPARATOR);
+define("JS_PATH", $root . 'js'. DIRECTORY_SEPARATOR);
+
 
 // require all utils
 require_once UTILS_PATH . 'dev_dump.php';

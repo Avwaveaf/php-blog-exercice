@@ -11,7 +11,7 @@ class Router
      * Array of routes containning all registered routes
      * @var array
      */
-    private array $routes;
+    private array $routes = [];
 
     /**
      * registering the routes and stored it in routes array
@@ -20,7 +20,7 @@ class Router
      * @param callable $action
      * @return \App\Router -- return self class for chaining. 
      */
-    public function register(string $method, string $route, callable|array $action):self
+public function register(string $method, string $route, callable|array $action):self
     {
         // setting the each route the $route as a key and callable as value
         $this ->routes[$method][$route] = $action;

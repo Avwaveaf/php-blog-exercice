@@ -11,8 +11,14 @@ use Carbon\Carbon;
     </div>
   </header>
   <main>
-    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-      <!-- Your content -->
+    <div class="flex max-w-7xl mx-auto">
+      <form class="flex flex-col my-2" action="<?= isset($_GET['search'])  ? '/?search=' . $_GET['search'] :'/' ?>" method="get">
+        <label for="search">Search Post</label>
+        <input type="text" name="search" id="search" placeholder="Search Something.." class="p-1 rounded-md">
+      </form>
+    </div>
+    <div class="mx-auto max-w-7xl flex gap-2 py-6 sm:px-6 lg:px-8">
+      <!-- Iteration through the post -->
       <?php foreach($posts as $post) : ?>
         <div class="max-w-sm rounded overflow-hidden shadow-lg">
   <div class="px-6 py-4">
