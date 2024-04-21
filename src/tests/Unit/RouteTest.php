@@ -32,7 +32,7 @@ class RouteTest extends TestCase
         ];
 
         // then we assert that route is registered
-        $this->assertEquals($expectedArr, $this->router->getRoutes());
+        $this->assertSame($expectedArr, $this->router->getRoutes());
     }
 
     public function testItRegisteredGetRoute():void
@@ -48,7 +48,7 @@ class RouteTest extends TestCase
         ];
 
         // then we assert that route is registered as 'get method'
-        $this->assertEquals($expectedArr, $this->router->getRoutes());
+        $this->assertSame($expectedArr, $this->router->getRoutes());
     }
 
     public function testItShouldRegisterPostRoute(){
@@ -63,7 +63,7 @@ class RouteTest extends TestCase
         ];
 
         // then we assert that route is registered as 'get method'
-        $this->assertEquals($expectedArr, $this->router->getRoutes());
+        $this->assertSame($expectedArr, $this->router->getRoutes());
     }
 
     public function testThereAreNoRoutesWhenRouterCreated()
@@ -109,6 +109,41 @@ class RouteTest extends TestCase
         $this->router->resolve($requestUri, $requestMethod);
     }
 
+
+    public function testItResolveARouteFromAClosure()
+    {
+        //given that we register a route
+        $this->router->get('/newRoute', fn() => ['a', 'b']);
+        
+        // we assert that it resorve the given route
+        $this->assertSame(
+            ['a', 'b'],
+            $this->router->resolve('/newRoute', 'get')
+        );
+    }
+
+    public function testItResolveARoute()
+    {
+        $posts = new class(){
+            public function index():array
+            {
+                return [1,2,3];
+            }
+        };
+
+        // given that we register a  route
+
+        $this->router->get('/posts', [$posts::class, 'index']);
+
+        // we assert that the resolve returning the expected
+        // P.S however this assertEquals method are not strict Equal comparison
+        $this->assertEquals([1, 2, 3], $this->router->resolve('/posts', 'get'));
+
+        // to comparing strict equal we can use assertSame
+        $this->assertSame([1, 2, 3], $this->router->resolve('/posts', 'get'));
+
+
+    }
 
 
 
