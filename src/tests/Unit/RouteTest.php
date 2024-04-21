@@ -85,7 +85,7 @@ class RouteTest extends TestCase
      * @param string $requestMethod
      * @return void
 
-     * @dataProvider routeNotFoundCases 
+     * @dataProvider \Tests\DataProviders\RouterDataProvider::routeNotFoundCases 
      */
     public function testItThrownRoutesNotFoundException(
         string $requestUri, 
@@ -110,22 +110,6 @@ class RouteTest extends TestCase
     }
 
 
-    public function routeNotFoundCases():array
-    {
-        return [
-            // route found but method not found
-            ['/posts', 'post'],
-            // route found but method not found
-            ['/posts/create', 'get'],
-            // route found but method not found
-            ['/posts/create', 'put'],
-            //method found but the route not found
-            ['/posts/update', 'post'],
-            // method exist and route exist but class not exist
-            ['/posts/create', 'post'],
-            // method exist and route exist but class not exist
-            ['/posts', 'get']
-        ];
-    }
+
 
 }
