@@ -68,10 +68,15 @@ class RouteTest extends TestCase
     public function testThereAreNoRoutesWhenRouterCreated()
     {
         // given that we have a router object
+        // in this test we testing that there are no routes when the
+        // routes object instantiaited so we need a neew object./
         $router = new Router();
         // when we call get method
         // we assert that no routes registered 
         $this->assertEmpty($router->getRoutes());
 
     }
+
+    
+
 }
