@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Exception\RouteNotFoundException;
 use App\Router;
 use PHPUnit\Framework\TestCase;
 
@@ -77,6 +78,54 @@ class RouteTest extends TestCase
 
     }
 
-    
+    /**
+     * This testing the ROuter->resolve method
+     * and this test method expect this two:
+     * @param string $requestUri
+     * @param string $requestMethod
+     * @return void
+
+     * @dataProvider routeNotFoundCases 
+     */
+    public function testItThrownRoutesNotFoundException(
+        string $requestUri, 
+        string $requestMethod
+    )
+    {
+        //simulating the controller
+        $posts = new class(){
+            public function delete(){
+                return true;
+            }
+        };
+
+        $this->router->post('/posts/create', [$posts::class, 'create']);
+        $this->router->get('/posts', ['Posts', 'index']);
+
+        // we can expect before resolve that RouteNotFoundException are called
+        // due to resolve method can produce the exception and it will stop 
+        // the execution.
+        $this->expectException(RouteNotFoundException::class);
+        $this->router->resolve($requestUri, $requestMethod);
+    }
+
+
+    public function routeNotFoundCases():array
+    {
+        return [
+            // route found but method not found
+            ['/posts', 'post'],
+            // route found but method not found
+            ['/posts/create', 'get'],
+            // route found but method not found
+            ['/posts/create', 'put'],
+            //method found but the route not found
+            ['/posts/update', 'post'],
+            // method exist and route exist but class not exist
+            ['/posts/create', 'post'],
+            // method exist and route exist but class not exist
+            ['/posts', 'get']
+        ];
+    }
 
 }
