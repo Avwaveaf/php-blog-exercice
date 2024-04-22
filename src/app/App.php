@@ -5,6 +5,8 @@ namespace App;
 
 use App\Database;
 use App\Router;
+use App\Services\EmailService;
+use App\Services\PostService;
 use App\View;
 
 
@@ -14,6 +16,9 @@ class App
     protected array $requestInfo;
 
     private static Database $db;
+
+    public static Container $container;
+
     public function __construct(Router $router, array $requestInfo )
     {  
         $this->router = $router;
@@ -21,6 +26,16 @@ class App
 
         $config = require APP_PATH . "config.php";
         static::$db = new Database($config['database'], $_ENV['user'], $_ENV['password']);
+
+        static::$container = new Container();
+
+        // setting teh Email Service to the container.
+        static::$container->set(EmailService::class, fn()=> new EmailService());
+
+        static::$container->set(PostService::class, function (Container $c) {
+            // we can get the dependencies using the container -> get
+            return new PostService($c->get(EmailService::class));
+        });
 
     }
 

@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\App;
 use App\Model\Post;
+use App\Services\PostService;
 use App\View;
 
 class Home
@@ -12,6 +13,9 @@ class Home
     public function index():View
     {
         $db = App::getDbInstace();
+
+        App::$container->get(PostService::class)->process("test");
+
         // Begin transaction
         $db->getDb()->beginTransaction();
 
