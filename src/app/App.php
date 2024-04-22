@@ -29,14 +29,13 @@ class App
 
         static::$container = new Container();
 
-        // setting teh Email Service to the container.
+        // Set the Email Service in the container.
         static::$container->set(EmailService::class, fn()=> new EmailService());
 
+        // Set the Post Service in the container with dependency resolution.
         static::$container->set(PostService::class, function (Container $c) {
-            // we can get the dependencies using the container -> get
             return new PostService($c->get(EmailService::class));
         });
-
     }
 
     public static function getDbInstace()
