@@ -17,7 +17,7 @@ class App
 
     private static Database $db;
 
-    public static Container $container;
+
 
     public function __construct(Router $router, array $requestInfo )
     {  
@@ -27,15 +27,7 @@ class App
         $config = require APP_PATH . "config.php";
         static::$db = new Database($config['database'], $_ENV['user'], $_ENV['password']);
 
-        static::$container = new Container();
-
-        // Set the Email Service in the container.
-        static::$container->set(EmailService::class, fn()=> new EmailService());
-
-        // Set the Post Service in the container with dependency resolution.
-        static::$container->set(PostService::class, function (Container $c) {
-            return new PostService($c->get(EmailService::class));
-        });
+  
     }
 
     public static function getDbInstace()

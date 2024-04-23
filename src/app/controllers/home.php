@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\App;
+use App\Container;
 use App\Model\Post;
 use App\Services\PostService;
 use App\View;
@@ -14,7 +15,7 @@ class Home
     {
         $db = App::getDbInstace();
 
-        App::$container->get(PostService::class)->process("test");
+        (new Container())->get(PostService::class)->process("test");
 
         // Begin transaction
         $db->getDb()->beginTransaction();
