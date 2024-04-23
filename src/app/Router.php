@@ -13,6 +13,9 @@ class Router
      */
     private array $routes = [];
 
+    public function __construct(private Container $container){
+    }
+
     /**
      * registering the routes and stored it in routes array
      * with given key from route and actionable
@@ -93,7 +96,7 @@ public function resolve(string $requestUri, string $method)
                 [$qualifiedClass, $method] = $action;
 
                 if (class_exists($qualifiedClass)) {
-                    $class = new $qualifiedClass();
+                    $class = $this->container->get($qualifiedClass);
                     if (method_exists($class, $method)) {
                         return call_user_func_array([$class, $method], $params);
                     }

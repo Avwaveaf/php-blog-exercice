@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Container;
 use App\Controllers\About;
 use App\Controllers\Home;
 use App\Controllers\Posts;
@@ -28,9 +29,9 @@ define("JS_PATH", $root . 'js'. DIRECTORY_SEPARATOR);
 // require all utils
 require_once UTILS_PATH . 'dev_dump.php';
 
+$container = new Container();
 
-
-$router = new Router();
+$router = new Router($container);
 
 $router
     ->get('/', [Home::class, 'index'])
